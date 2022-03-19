@@ -56,7 +56,7 @@ class ProductServiceTests {
         Assertions.assertNotNull(loadedProduct);
         Assertions.assertNotNull(loadedProduct.getId());
     }
-
+//
     @Test
     void shouldUpdateProduct() {
         Product product = createTestProduct("product2", 1.3, 5);
@@ -82,7 +82,7 @@ class ProductServiceTests {
         productService.save(Banana);
         RecalledProduct recalledProductApple = createTestRecalledProduct("Apple");
         recalledProductService.save(recalledProductApple);
-        Collection<Product> collection =productService.getAllProduct();
-        Assertions.assertEquals(1,collection.size());
+        Collection<Product> products =productService.getAllProduct();
+        Assertions.assertEquals(products.size(), 1);
     }
 }
