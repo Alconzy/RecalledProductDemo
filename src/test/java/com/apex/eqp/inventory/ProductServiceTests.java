@@ -6,10 +6,14 @@ import com.apex.eqp.inventory.services.ProductService;
 import com.apex.eqp.inventory.services.RecalledProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @SpringBootTest
@@ -68,5 +72,17 @@ class ProductServiceTests {
         productService.save(loadedProduct);
 
         Assertions.assertNotNull(productService.findById(loadedProduct.getId()).orElse(null));
+    }
+
+    @Test
+    void shouldGetAllProductsWithoutRecalledProduct() {
+        Product apple = createTestProduct("Apple", 3.0, 1);
+        productService.save(apple);
+        Product Banana = createTestProduct("Banana", 3.99, 3);
+        productService.save(Banana);
+        RecalledProduct recalledProductApple = createTestRecalledProduct("Apple");
+        recalledProductService.save(recalledProductApple);
+        Collection<Product> collection =productService.getAllProduct();
+        Assertions.assertEquals(1,collection.size());
     }
 }

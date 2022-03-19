@@ -5,9 +5,12 @@ import com.apex.eqp.inventory.entities.RecalledProduct;
 import com.apex.eqp.inventory.helpers.ProductFilter;
 import com.apex.eqp.inventory.repositories.InventoryRepository;
 import com.apex.eqp.inventory.repositories.RecalledProductRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +20,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
 
+    @Autowired
     private final InventoryRepository inventoryRepository;
+
+    @Autowired
+    RecalledProductService recalledProductService;
 
     public Product save(Product product) {
         return inventoryRepository.save(product);
     }
 
     public Collection<Product> getAllProduct() {
-        ProductFilter filter = new ProductFilter(null);
+        Collection<RecalledProduct> recalledProducts = recalledProductService.getAllRecalledProducts();
+        List<String> recallProductsName = new ArrayList<>();
+        for (RecalledProduct recalledProduct : recalledProducts)
+            recallProductsName.add(recalledProduct.getName());
+
+        ProductFilter filter = new ProductFilter(recallProductsName);
         return filter.removeRecalled(inventoryRepository.findAll());
     }
 

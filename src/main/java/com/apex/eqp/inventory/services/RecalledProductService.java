@@ -25,4 +25,5 @@ public class RecalledProductService {
     public Optional<RecalledProduct> findById(Integer id) {
         return recalledProductRepository.findById(id);
     }
+
 }
