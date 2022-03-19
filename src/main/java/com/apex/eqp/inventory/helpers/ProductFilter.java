@@ -23,7 +23,7 @@ public class ProductFilter {
     }
 
     private static boolean filterByName(Product product) {
-        if (!recalledProducts.contains(product.getName()))
+        if (product != null && !recalledProducts.contains(product.getName()))
             return true;
         return false;
     }
